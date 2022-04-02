@@ -198,7 +198,7 @@ if (empty($_SESSION['id_user'])) {
                 const bayar = parseInt(e.target.value)
 
                 idKembali.value = bayar - biaya
-                total.value = biaya;
+                idTotal.value = biaya;
             })
 
         });

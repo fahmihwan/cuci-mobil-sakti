@@ -63,13 +63,16 @@ if (empty($_SESSION['id_user'])) {
 			$no = 0;
 			while ($row = mysqli_fetch_array($sql)) {
 				$no++;
+
+				$que = mysqli_query($koneksi, "SELECT jenis FROM biaya WHERE biaya=" . $row['jenis'] . "");
+				$d = mysqli_fetch_assoc($que)['jenis'];
 				echo '
 
 													<tr>
 														<td>' . $no . '</td>
 														<td>' . $row['no_nota'] . '</td>
 														<td>' . $row['nama'] . '</td>
-														<td>' . $row['jenis'] . '</td>
+														<td>' . $d . '</td>
 														<td>RP. ' . number_format($row['total']) . '</td>
 														<td>' . date("d M Y", strtotime($row['tanggal'])) . '</td>
 														<td>

@@ -6,34 +6,17 @@ if (empty($_SESSION['id_user'])) {
 	die();
 } else {
 
-	if (isset($_REQUEST['submit'])) {
+	$id_transaksi = $_REQUEST['id_transaksi'];
 
-		$id_transaksi = $_REQUEST['id_transaksi'];
-		$jenis = $_REQUEST['jenis'];
-		$nama = $_REQUEST['nama'];
-		$bayar = $_REQUEST['bayar'];
-		$kembali = $_REQUEST['kembali'];
-		$total = $_REQUEST['total'];
-		$id_user = $_SESSION['id_user'];
-
-		$sql = mysqli_query($koneksi, "UPDATE transaksi SET jenis='$jenis', nama='$nama', bayar='$bayar', kembali='$kembali', total='$total', tanggal=NOW(), id_user='$id_user' WHERE id_transaksi='$id_transaksi'");
-
-		if ($sql == true) {
-			header('Location: ./admin.php?hlm=transaksi');
-			die();
-		} else {
-			echo 'ERROR! Periksa penulisan querynya.';
-		}
-	} else {
-
-		$id_transaksi = $_REQUEST['id_transaksi'];
-
-		$row = [];
-		$sql = mysqli_query($koneksi, "SELECT * FROM transaksi WHERE id_transaksi='$id_transaksi'");
-		while ($rows = mysqli_fetch_assoc($sql)) {
-			$row[] = $rows;
-		}
+	$row = [];
+	$sql = mysqli_query($koneksi, "SELECT * FROM transaksi WHERE id_transaksi='$id_transaksi'");
+	while ($rows = mysqli_fetch_assoc($sql)) {
+		$row[] = $rows;
 	}
+
+	$dSelected = $row[0]['jenis'];
+	$q = mysqli_query($koneksi, "SELECT * FROM biaya WHERE biaya='$dSelected'");
+	$dSelectedJenis =	mysqli_fetch_row($q);
 }
 
 ?>
@@ -57,7 +40,7 @@ if (empty($_SESSION['id_user'])) {
 						<div class="au-card chart-percent-card">
 							<div class="au-card-inner">
 
-								<form method="post" action="" class="form-horizontal" role="form">
+								<form method="post" action="update_action.php" class="form-horizontal" role="form">
 									<div class="form-group">
 										<label for="no_nota" class="col-sm-4 control-label">No. Nota</label>
 										<div class="col-sm-6">
@@ -66,20 +49,27 @@ if (empty($_SESSION['id_user'])) {
 									</div>
 									<div class="form-group">
 										<label for="jenis" class="col-sm-4 control-label">Jenis Kendaraan</label>
+										<input type="hidden" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
 										<input type="hidden" name="id_transaksi" value="<?php echo $row[0]['id_transaksi']; ?>">
 										<div class="col-sm-6">
-											<select name="jenis" class="form-control" required>
-
+											<select name="jenis" class="form-control" required id="jenis">
 												<?php
-
-												$q = mysqli_query($koneksi, "SELECT jenis FROM biaya");
-												while (list($jenis) = mysqli_fetch_array($q)) {
-													echo '<option value="' . $jenis . '">' . $jenis . '</option>';
+												if ($dSelectedJenis[2]) {
+													echo "<option value='$dSelectedJenis[2]'>$dSelectedJenis[1]</option>";
 												}
-
+												$q = mysqli_query($koneksi, "SELECT * FROM biaya");
+												while ($selectJenis = mysqli_fetch_row($q)) {
+													echo "<option value='$selectJenis[2]' >$selectJenis[1]</option>";
+												}
 												?>
 
 											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="biaya" class="col-sm-4 control-label">Biaya</label>
+										<div class="col-sm-6">
+											<input type="number" class="form-control" id="biaya" name="biaya" value="<?= $dSelectedJenis[2]; ?>" required readonly>
 										</div>
 									</div>
 									<div class="form-group">
