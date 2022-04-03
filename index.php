@@ -52,17 +52,22 @@ include "koneksi.php";
 
 
 			//script query ke insert data ke dalam database
-			$sql = mysqli_query($koneksi, "SELECT id_user, username, nama, level FROM user WHERE username='$username' AND password=MD5('$password')");
+			$sql = mysqli_query($koneksi, "SELECT id_user, username, nama,image, level FROM user WHERE username='$username' AND password=MD5('$password')");
 
 			//jika skript query benar maka akan membuat session
 			if ($sql) {
-				list($id_user, $username, $nama, $level) = mysqli_fetch_array($sql);
+				// list($id_user, $username, $nama, $level, $image) = mysqli_fetch_array($sql);
+
+				$d = mysqli_fetch_assoc($sql);
+
 
 				//membuat session
-				$_SESSION['id_user'] = $id_user;
-				$_SESSION['username'] = $username;
-				$_SESSION['nama'] = $nama;
-				$_SESSION['level'] = $level;
+				$_SESSION['id_user'] = $d['id_user'];
+				$_SESSION['username'] = $d['username'];
+				$_SESSION['nama'] = $d['nama'];
+				$_SESSION['level'] = $d['level'];
+				$_SESSION['image'] = $d['image'];
+
 
 				header("Location: ./admin.php");
 				die();
