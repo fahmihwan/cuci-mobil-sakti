@@ -73,7 +73,9 @@ if (!empty($_SESSION['id_user'])) {
                         <form></form>
                         <div class="dropdown ">
                             <button style="background-color:#f5f5f5;  " class="dropdown-toggle " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="images/icon/person.png" alt="John Doe" class="rounded rounded-pill" style="width:50px;" />
+                                <!-- <img src="images/icon/person.png" alt="John Doe" class="rounded rounded-pill" style="width:50px;" /> -->
+                                <img src="./images/users/personal.jpg" class="rounded rounded-pill" width="50px" style="height: 50px;" alt="">
+
                                 <span class="text-dark"> <?php echo $_SESSION['nama']; ?></span>
                                 <span class="navbar-toggler-icon"></span>
                             </button>

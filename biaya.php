@@ -1,14 +1,14 @@
 <?php
 
-if( empty( $_SESSION['id_user'] ) ){
+if (empty($_SESSION['id_user'])) {
 
 	$_SESSION['err'] = '<strong>ERROR!</strong> Anda harus login terlebih dahulu.';
 	header('Location: ./');
 	die();
 } else {
-	if( isset( $_REQUEST['aksi'] )){
+	if (isset($_REQUEST['aksi'])) {
 		$aksi = $_REQUEST['aksi'];
-		switch($aksi){
+		switch ($aksi) {
 			case 'baru':
 				include 'biaya_baru.php';
 				break;
@@ -53,19 +53,19 @@ if( empty( $_SESSION['id_user'] ) ){
 										
 										<tbody>';
 
-										//script menampilkan data dari database
-										$sql = mysqli_query($koneksi, "SELECT * FROM biaya");
-										if(mysqli_num_rows($sql) > 0){
-											$no = 0;
+		//script menampilkan data dari database
+		$sql = mysqli_query($koneksi, "SELECT * FROM biaya");
+		if (mysqli_num_rows($sql) > 0) {
+			$no = 0;
 
-											while($row = mysqli_fetch_array($sql)){
-												$no++;
-											echo '
+			while ($row = mysqli_fetch_array($sql)) {
+				$no++;
+				echo '
 
 											<tr>
-												<td>'.$no.'</td>
-												<td>'.$row['jenis'].'</td>
-												<td>'.$row['biaya'].'</td>
+												<td>' . $no . '</td>
+												<td>' . $row['jenis'] . '</td>
+												<td>' . $row['biaya'] . '</td>
 												<td>
 
 												<script type="text/javascript" language="JavaScript">
@@ -76,16 +76,16 @@ if( empty( $_SESSION['id_user'] ) ){
 													}
 												</script>
 
-												<a href="?hlm=biaya&aksi=edit&id_biaya='.$row['id_biaya'].'" class="btn btn-warning btn-s">Edit</a>
-												<a href="?hlm=biaya&aksi=hapus&submit=yes&id_biaya='.$row['id_biaya'].'" onclick="return konfirmasi()" class="btn btn-danger btn-s">Hapus</a>
+												<a href="?hlm=biaya&aksi=edit&id_biaya=' . $row['id_biaya'] . '" class="btn btn-warning btn-s">Edit</a>
+												<a href="?hlm=biaya&aksi=hapus&submit=yes&id_biaya=' . $row['id_biaya'] . '" onclick="return konfirmasi()" class="btn btn-danger btn-s">Hapus</a>
 
 												</td>
 											</tr>';
-												}
-											} else {
-												echo '<td colspan="8"><center><p class="add">Tidak ada data untuk ditampilkan. <u><a href="?hlm=biaya&aksi=baru">Tambah data baru</a></u> </p></center></td></tr>';
-											}
-											echo '
+			}
+		} else {
+			echo '<td colspan="8"><center><p class="add">Tidak ada data untuk ditampilkan. <u><a href="?hlm=biaya&aksi=baru">Tambah data baru</a></u> </p></center></td></tr>';
+		}
+		echo '
 			 							</tbody>
 									</table>
 								</div>
@@ -97,4 +97,3 @@ if( empty( $_SESSION['id_user'] ) ){
 		</div>';
 	}
 }
-?>

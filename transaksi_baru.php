@@ -16,13 +16,16 @@ if (empty($_SESSION['id_user'])) {
 		$total = $_REQUEST['total'];
 		$id_user = $_SESSION['id_user'];
 
+
+
+
 		$sql = mysqli_query($koneksi, "INSERT INTO transaksi(no_nota, jenis, nama, bayar, kembali, total, tanggal, id_user) VALUES('$no_nota', '$jenis', '$nama', '$bayar', '$kembali', '$total', NOW(), '$id_user')");
 
 		if ($sql == true) {
 			echo "
-			<script>
-				window.location.href ='admin.php?hlm=transaksi';
-			</script>";
+				<script>
+					window.location.href ='admin.php?hlm=transaksi';
+				</script>";
 		} else {
 			echo 'ERROR! Periksa penulisan querynya.';
 		}

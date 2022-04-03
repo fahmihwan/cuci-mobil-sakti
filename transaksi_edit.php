@@ -12,11 +12,17 @@ if (empty($_SESSION['id_user'])) {
 	$sql = mysqli_query($koneksi, "SELECT * FROM transaksi WHERE id_transaksi='$id_transaksi'");
 	while ($rows = mysqli_fetch_assoc($sql)) {
 		$row[] = $rows;
-	}
+	};
 
-	$dSelected = $row[0]['jenis'];
+	transaksiEdit($row[0]['jenis']);
+}
+
+function transaksiEdit($dSelected)
+{
+	global $koneksi;
 	$q = mysqli_query($koneksi, "SELECT * FROM biaya WHERE biaya='$dSelected'");
 	$dSelectedJenis =	mysqli_fetch_row($q);
+	return $dSelectedJenis;
 }
 
 ?>

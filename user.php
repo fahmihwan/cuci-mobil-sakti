@@ -1,14 +1,14 @@
 <?php
 
-if( empty( $_SESSION['id_user'] ) ){
+if (empty($_SESSION['id_user'])) {
 
 	$_SESSION['err'] = '<strong>ERROR!</strong> Anda harus login terlebih dahulu.';
 	header('Location: ./');
 	die();
 } else {
-	if( isset( $_REQUEST['aksi'] )){
+	if (isset($_REQUEST['aksi'])) {
 		$aksi = $_REQUEST['aksi'];
-		switch($aksi){
+		switch ($aksi) {
 			case 'baru':
 				include 'user_baru.php';
 				break;
@@ -45,6 +45,7 @@ if( empty( $_SESSION['id_user'] ) ){
 											<thead>
 												<tr class="info">
 													<th width="5%">No</th>
+													<th width="22%">Foto</th>
 													<th width="22%">Username</th>
 													<th width="33%">Nama</th>
 													<th width="20%">Level</th>
@@ -54,28 +55,30 @@ if( empty( $_SESSION['id_user'] ) ){
 										
 										<tbody>';
 
-										//script menampilkan data dari database
-										$sql = mysqli_query($koneksi, "SELECT * FROM user");
-										if(mysqli_num_rows($sql) > 0){
-											$no = 0;
+		//script menampilkan data dari database
+		$sql = mysqli_query($koneksi, "SELECT * FROM user");
+		if (mysqli_num_rows($sql) > 0) {
+			$no = 0;
 
-											while($row = mysqli_fetch_array($sql)){
-												$no++;
-											echo '
+			while ($row = mysqli_fetch_array($sql)) {
+				$no++;
+
+				echo '
 
 				  							 <tr>
-												<td>'.$no.'</td>
-												<td>'.$row['username'].'</td>
-												<td>'.$row['nama'].'</td>
+												<td>' . $no . '</td>
+												<td><img src="./images/users/' . $row['image'] . '" width="50"></td>
+												<td>' . $row['username'] . '</td>
+												<td>' . $row['nama'] . '</td>
 												<td>';
 
-												if($row['level'] == 1){
-													echo 'Admin';
-												} else {
-													echo 'User Biasa';
-												}
+				if ($row['level'] == 1) {
+					echo 'Admin';
+				} else {
+					echo 'User Biasa';
+				}
 
-												echo'</td>
+				echo '</td>
 												<td>
 
 												<script type="text/javascript" language="JavaScript">
@@ -86,16 +89,16 @@ if( empty( $_SESSION['id_user'] ) ){
 													}
 												</script>
 
-												<a href="?hlm=user&aksi=edit&id_user='.$row['id_user'].'" class="btn btn-warning btn-s">Edit</a>
-												<a href="?hlm=user&aksi=hapus&submit=yes&id_user='.$row['id_user'].'" onclick="return konfirmasi()" class="btn btn-danger btn-s">Hapus</a>
+												<a href="?hlm=user&aksi=edit&id_user=' . $row['id_user'] . '" class="btn btn-warning btn-s">Edit</a>
+												<a href="?hlm=user&aksi=hapus&submit=yes&id_user=' . $row['id_user'] . '" onclick="return konfirmasi()" class="btn btn-danger btn-s">Hapus</a>
 
 												</td>
 											</tr>';
-												}
-											} else {
-												echo '<td colspan="8"><center><p class="add">Tidak ada data untuk ditampilkan. <u><a href="?hlm=user&aksi=baru">Tambah user baru</a></u> </p></center></td></tr>';
-											}
-											echo '
+			}
+		} else {
+			echo '<td colspan="8"><center><p class="add">Tidak ada data untuk ditampilkan. <u><a href="?hlm=user&aksi=baru">Tambah user baru</a></u> </p></center></td></tr>';
+		}
+		echo '
 										</tbody>
 									</table>
 								</div>
@@ -107,4 +110,3 @@ if( empty( $_SESSION['id_user'] ) ){
 		</div>';
 	}
 }
-?>
